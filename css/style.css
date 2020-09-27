@@ -1,0 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #557A95;
+}
+
+.welcome_text {
+    width: 400px;
+}
+
+.welcome_form input,
+.welcome_form button {
+    display: block;
+    width: 100%;
+}
+
+.welcome_form input {
+    margin-bottom: 15px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+}
+
+.welcome_form button {
+    font-size: 22px;
+    padding: 20px 0;
+    border: none;
+    background-color: #fff;
+    color: #557A95;
+    border-radius: 100px;
+    transition: 0.4s all;
+}
+
+.welcome_form button:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
