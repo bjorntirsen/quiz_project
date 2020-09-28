@@ -37,6 +37,11 @@ body {
     text-align: center;
 }
 
+::placeholder {
+    opacity: 0.6;
+    color: #fff;
+}
+
 .welcome_form button {
     font-size: 22px;
     padding: 20px 0;

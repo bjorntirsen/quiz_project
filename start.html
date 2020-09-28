@@ -10,8 +10,8 @@
 <body>
     <div class="wrapper">
         <div class="welcome_text">
-            <form class="welcome_form">
-                <input type="text" default="Your Name">
+            <form class="welcome_form" onsubmit="submitForm(event)">
+                <input type="text" name="name" placeholder="Your Name">
                 <button type="submit">Start Quiz</button>
             </form>
         </div>
