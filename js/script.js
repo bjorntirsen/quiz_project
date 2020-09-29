@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     submit_button.addEventListener("click", function(event){
         /* Preventing error below */
         event.preventDefault(event);        
-        location.href ="quiz.html";    
+        let my_game = new Game(); 
     })
 })
 

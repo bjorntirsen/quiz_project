@@ -1,6 +1,6 @@
 class Player {
-    constructor(){
-        this.question_count = 0;
+    constructor(name){
+        this.name = name;
 
 
     }
