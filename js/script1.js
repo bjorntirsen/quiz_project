@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function(e){
     submit_button.addEventListener("click", function(event){
         /* Preventing error below */
         event.preventDefault(event);        
-        let my_game = new Game(); 
+        let my_form = new Form();
     })
 })
-
