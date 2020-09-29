@@ -1,9 +1,23 @@
 class Form {
-    constructor(){
-        //Getting and storing player name in session storage
-        let name = document.getElementById("input_field").value;
-        //Creating player object
-        this.player = new Player(name);
-        this.question_count = 0;
+    constructor(){                
+    }
+    submitForm(){
+        if (document.getElementById("input_field").value.trim() != "") {
+            //Getting and storing player name in session storage
+            let name = document.getElementById("input_field").value;
+            sessionStorage.setItem("name", name);
+            //Getting and storing question amount in session storage
+            let question_amount = 5;
+            if (document.getElementById("radio_10").checked) {
+                question_amount = 10;
+                console.log("ten");        
+            }        
+            sessionStorage.setItem("question_amount", question_amount);
+            console.log("five");
+            location.href = "quiz.html";
+        }
+        else
+        alert("Please enter your name")
+        focus.getElementById("input_field");
     }
 }

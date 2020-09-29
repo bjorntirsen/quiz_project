@@ -44,8 +44,6 @@ body {
 
 .question_buttons {
     margin: 30px;
-    justify-content: center;
-    align-items: center;
 }
 
 .question_buttons input[type="radio"] {
