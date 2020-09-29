@@ -10,10 +10,8 @@ class Form {
             let question_amount = 5;
             if (document.getElementById("radio_10").checked) {
                 question_amount = 10;
-                console.log("ten");        
             }        
             sessionStorage.setItem("question_amount", question_amount);
-            console.log("five");
             location.href = "quiz.html";
         }
         else
