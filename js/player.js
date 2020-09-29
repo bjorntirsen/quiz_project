@@ -1,9 +1,10 @@
 class Player {
     constructor(){
-        
-        let name = document.getElementById("input_field").value;
-        //Storing player name in session storage
-        sessionStorage.setItem("name", name);
-        location.href ="quiz.html";
+        this.question_count = 0;
+
+
+    }
+    next(){
+        this.question_count++;
     }
 }
