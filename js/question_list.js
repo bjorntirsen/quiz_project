@@ -4,9 +4,9 @@ class Question_list {
         this.list = [];
         /* console.log(this); */
     }
-    addQuestion(question){
+    /* addQuestion(question){
         this.list.push(question);
-    }
+    } */
     fetchQuestions() {
         fetch("https://quizapi.io/api/v1/questions?category=code&limit="+this.question_amount, {
             headers: {
@@ -32,7 +32,8 @@ class Question_list {
                 question.question = json[i].question;
                 /* question.tags = json[i].tags; */
                 question.tip = json[i].tip;
-                this.addQuestion(question);
+                this.list.push(question);
+                console.log(this.list.length);
             }
         });
     }
