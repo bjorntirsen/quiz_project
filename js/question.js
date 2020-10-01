@@ -1,13 +1,16 @@
 class Question {
     constructor(){
-        this.question = "";
+        this.answers = [];
+        this.category = "";        
         this.correct_answer = "";
-        this.answer_a = null;
-        this.answer_b = null;
-        this.answer_c = null;
-        this.answer_d = null;
-        this.answer_e = null;
-        this.answer_f = null;
+        this.correct_answers = [];
+        this.description = null;
+        this.difficulty = "";
+        this.explanation = null;
+        this.id = null;
+        this.multiple_correct_answers = false;
+        this.question = "";
+        this.tags = [];
     }
     correct(){
 
