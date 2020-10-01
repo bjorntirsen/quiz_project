@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function(e){
+document.addEventListener("DOMContentLoaded", async function(e){
     let my_game = new Game();
-    /* my_game.publishQuestion(my_game.current_question); */
-    console.log(my_game.question_list.list);
+    await my_game.question_list.fetchQuestions(my_game.question_amount)
+    console.log(my_game);
 })
