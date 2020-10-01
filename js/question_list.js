@@ -1,8 +1,11 @@
 class Question_list {
     constructor(){
         this.question_amount = sessionStorage.getItem("question_amount");          
-        let list = [];
-        this.fetchQuestions();
+        this.list = [];
+        /* console.log(this); */
+    }
+    addQuestion(question){
+        this.list.push(question);
     }
     fetchQuestions() {
         fetch("https://quizapi.io/api/v1/questions?category=code&limit="+this.question_amount, {
@@ -29,7 +32,7 @@ class Question_list {
                 question.question = json[i].question;
                 /* question.tags = json[i].tags; */
                 question.tip = json[i].tip;
-                this.list.push(question);
+                this.addQuestion(question);
             }
         });
     }
