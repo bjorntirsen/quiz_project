@@ -11,6 +11,7 @@ class Question {
         this.multiple_correct_answers = false;
         this.question = "";
         this.tags = [];
+        this.tip = null;
     }
     correct(){
 
