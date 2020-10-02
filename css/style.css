@@ -152,6 +152,11 @@ body {
     border: 2px solid #557A95
 }
 
+.active {
+    background-color: #7395ae;
+    border: 2px solid #fff;
+}
+
 .btn_next {
     background-color: #557A95;
     color: #fff;

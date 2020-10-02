@@ -42,5 +42,23 @@ class Game {
     }
     goToNext(question_index){
         this.publishQuestion(question_index);
+        this.makeOptionsSelectable();
     }
-} 
+    makeOptionsSelectable(){
+        let options = document.querySelectorAll("li.option");
+        for (let i = 0; i < options.length; i++){
+            options[i].onclick = function(){
+                if(options[i].classList.contains("active")){
+                    options[i].classList.remove("active");
+                }
+                else {
+                    options[i].classList.add("active");
+                }
+            }
+        }
+    }
+    rememberAnswers(){
+        let answers = document.getElementById("input_field").value;
+            sessionStorage.setItem("name", name);
+    }
+}
