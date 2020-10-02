@@ -13,29 +13,34 @@ class Game {
         document.getElementById("user_welcome").innerHTML += this.player.name + "!";
     }
     publishQuestion(question_index){
-        let question = document.getElementById("question");  
-        question.innerHTML = this.ready.question; 
+        let question = document.getElementById("question");
         let option_group = document.getElementById("option_group");
-        option_group.innerHTML = "";
-        let displayed_question = this.question_list.list[question_index];     
-        if (question_index != this.ready) {        
+        option_group.innerHTML = ""; 
+        if (question_index === this.ready){
+            question.innerHTML = this.ready.question;
+        }        
+        else {        
+            console.log("0 är "+this.question_list.list[0]);
+            console.log("1 är "+this.question_list.list[1]);
+            console.log(this.question_list.list[question_index]);
+            let displayed_question = this.question_list.list[question_index];
+            console.log(displayed_question);
             question.innerHTML = displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
-                console.log(displayed_question.answers[i]);
-                if (displayed_question.answers[i].value != null) {
+                if (displayed_question.answers[i][1] != null) {
                     let li_option = document.createElement('li');
                     li_option.setAttribute("id", "option" + i);
-                    li_option.innerHTML = question_index.answers[i];
-                    option_group.append(li_option);
-                    this.current_question++;
-                }
-                
+                    li_option.classList.add("option");
+                    li_option.innerHTML = displayed_question.answers[i][1];
+                    option_group.append(li_option);                    
+                }                
             }
-            
+            this.current_question++;
+            console.log(this.current_question);
         }
              
     }
-    goToNext(){
-        this.publishQuestion(this.current_question);
+    goToNext(question_index){
+        this.publishQuestion(question_index);
     }
 } 
