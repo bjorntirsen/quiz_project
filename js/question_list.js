@@ -13,7 +13,6 @@ class Question_list {
             });
             const data = await response.json();
             for (let i = 0; i < question_amount; i++){
-                console.log(data);
                 //Turning each question in json to object
                 let question = new Question();
                 //Converting key-value pairs of object into array and
