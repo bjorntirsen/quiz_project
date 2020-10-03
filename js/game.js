@@ -25,13 +25,13 @@ class Game {
             console.log(this.question_list.list[question_index]);
             let displayed_question = this.question_list.list[question_index];
             console.log(displayed_question);
-            question.innerHTML = displayed_question.question;
+            question.innerText = displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
                     let li_option = document.createElement('li');
                     li_option.setAttribute("id", "option" + i);
                     li_option.classList.add("option");
-                    li_option.innerHTML = displayed_question.answers[i][1];
+                    li_option.innerText = displayed_question.answers[i][1];
                     option_group.append(li_option);                    
                 }                
             }
@@ -41,6 +41,7 @@ class Game {
              
     }
     goToNext(question_index){
+        this.rememberAnswers();
         this.publishQuestion(question_index);
         this.makeOptionsSelectable();
     }
@@ -58,7 +59,9 @@ class Game {
         }
     }
     rememberAnswers(){
-        let answers = document.getElementById("input_field").value;
-            sessionStorage.setItem("name", name);
+        let answers = document.querySelectorAll("li.active");
+        console.log(answers);
+        console.log(typeof answers);
+        /* this.player.answer_list */
     }
 }
