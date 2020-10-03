@@ -38,13 +38,39 @@ class Game {
         }
              
     }
+    toggleSecondButton(){
+        if (this.current_question_index > 0) {
+            let this_class = this;
+            let back_button = document.createElement('button');
+            back_button.setAttribute("id", back_button);
+            back_button.classList.add("btn");
+            back_button.innerText = "Previous Question";
+            let section = document.getElementById("quiz_body");
+            let next_button = document.getElementById("btn_next");
+            back_button.addEventListener("click", function(){
+                this_class.goBack();
+            });
+            section.insertBefore(back_button, next_button);
+            
+        }
+        if (this.current_question_index === 0) {
+            let back = document.getElementById("back_button");
+            back.remove();  
+        }                    
+    }
     goToNext(from_question_index){
-        this.current_question_index++;
         if (this.current_question_index > -1){
             this.rememberAnswers();
-        }        
+        }
+        this.current_question_index++;      
         this.publishQuestion(from_question_index);
         this.makeOptionsSelectable();
+    }
+    goBack(){
+        console.log("I want to go back");
+        console.log(this.current_question_index);
+        console.log(this.current_question_index-2);
+        this.goToNext(this.current_question_index-2);
     }
     makeOptionsSelectable(){
         let options = document.querySelectorAll("li.option");

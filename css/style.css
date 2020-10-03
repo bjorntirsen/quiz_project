@@ -157,7 +157,7 @@ body {
     border: 2px solid #fff;
 }
 
-.btn_next {
+.btn {
     background-color: #557A95;
     color: #fff;
     padding: 15px 35px;
@@ -166,7 +166,7 @@ body {
     transition: 0.4s all;
 }
 
-.btn_next:hover {
+.btn:hover {
     cursor: pointer;
     background-color: #fff;
     color: #557A95;
