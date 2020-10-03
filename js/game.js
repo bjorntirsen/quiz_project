@@ -2,7 +2,7 @@ class Game {
     constructor(){
         this.player = new Player();
         this.question_amount = sessionStorage.getItem("question_amount");
-        this.current_question = 0;
+        this.current_question_index = -1;
         this.publishPlayer();
         this.question_list = new Question_list();
         this.ready = new Question();
@@ -20,29 +20,30 @@ class Game {
             question.innerHTML = this.ready.question;
         }        
         else {        
-            console.log("0 är "+this.question_list.list[0]);
-            console.log("1 är "+this.question_list.list[1]);
-            console.log(this.question_list.list[question_index]);
-            let displayed_question = this.question_list.list[question_index];
+            let displayed_question = this.question_list.list[this.current_question_index];
+            console.log("The displayed question is");
             console.log(displayed_question);
             question.innerText = displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
                     let li_option = document.createElement('li');
-                    li_option.setAttribute("id", "option" + i);
+                    li_option.setAttribute("id", i);
                     li_option.classList.add("option");
                     li_option.innerText = displayed_question.answers[i][1];
                     option_group.append(li_option);                    
                 }                
             }
-            this.current_question++;
-            console.log(this.current_question);
+            
+            console.log(this.current_question_index);
         }
              
     }
-    goToNext(question_index){
-        this.rememberAnswers();
-        this.publishQuestion(question_index);
+    goToNext(from_question_index){
+        this.current_question_index++;
+        if (this.current_question_index > -1){
+            this.rememberAnswers();
+        }        
+        this.publishQuestion(from_question_index);
         this.makeOptionsSelectable();
     }
     makeOptionsSelectable(){
@@ -62,6 +63,10 @@ class Game {
         let answers = document.querySelectorAll("li.active");
         console.log(answers);
         console.log(typeof answers);
-        /* this.player.answer_list */
+        if (this.current_question_index > -1){
+            this.player.answer_list[this.current_question_index] = answers;
+        }        
+        console.log("Answer array below");
+        console.log(this.player.answer_list);
     }
 }
