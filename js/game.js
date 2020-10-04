@@ -86,20 +86,18 @@ class Game {
         }
     }
     rememberAnswers(){
-        let answers = document.querySelectorAll("li.active");
-        let answer_array = this.player.answer_list;
-        console.log(answers);
-        console.log(typeof answers);
         //Dont do this on the "ready screen"
         if (this.current_question_index > -1){
-            answer_array[this.current_question_index] = answers;
-            console.log("Answer array below");
+            let answers = document.querySelectorAll("li.option");
+            let answer_array = Array.from(answers);
+            let player_answers = this.player.answer_list
             console.log(answer_array);
-            for (let i = 0; i < answer_array.length; i++) {
-                answer_array = Object.keys(answer_array[i]).map((key) => [key, answer_array[i].answers[key]]);
-            }
-            console.log("Mapped answer array below");
-            console.log(answer_array);
+            player_answers[this.current_question_index] = answer_array;
+            console.log(player_answers);
         }
+    }
+    publishPastAnswers(){
+        let question_options = 
+        for (let i = 0; i <)
     }
 }
