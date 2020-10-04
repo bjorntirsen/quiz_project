@@ -23,7 +23,7 @@ class Game {
             let displayed_question = this.question_list.list[this.current_question_index];
             console.log("The displayed question is");
             console.log(displayed_question);
-            question.innerText = displayed_question.question;
+            question.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
                     let li_option = document.createElement('li');
@@ -87,12 +87,19 @@ class Game {
     }
     rememberAnswers(){
         let answers = document.querySelectorAll("li.active");
+        let answer_array = this.player.answer_list;
         console.log(answers);
         console.log(typeof answers);
+        //Dont do this on the "ready screen"
         if (this.current_question_index > -1){
-            this.player.answer_list[this.current_question_index] = answers;
-        }        
-        console.log("Answer array below");
-        console.log(this.player.answer_list);
+            answer_array[this.current_question_index] = answers;
+            console.log("Answer array below");
+            console.log(answer_array);
+            for (let i = 0; i < answer_array.length; i++) {
+                answer_array = Object.keys(answer_array[i]).map((key) => [key, answer_array[i].answers[key]]);
+            }
+            console.log("Mapped answer array below");
+            console.log(answer_array);
+        }
     }
 }
