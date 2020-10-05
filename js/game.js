@@ -57,7 +57,6 @@ class Game {
         }
         else if ((this.current_question_index === 0) && (this.no_of_buttons === 2)) {
             let back = document.getElementById("back_btn");
-            console.log(back);
             back.remove();
             this.no_of_buttons--;
         }                    
@@ -120,10 +119,13 @@ class Game {
         console.log(player_answers);
         if (this.current_question_index > -1) {
             let options = document.querySelectorAll("li.option");
-            for (let i = 0; i < options.length; i++) {
+            let options_array = Array.from(options);
+            console.log(options_array);
+            for (let i = 0; i < options_array.length; i++) {
+                let current_option = document.getElementById(i)
                 console.log(player_answers[i]);
-                if (player_answers[i] == true) {
-                    options[i].classList.add("active");
+                if (player_answers[i] === true) {
+                    current_option.classList.add("active");
                 }
             }
         }        
