@@ -7,7 +7,8 @@ class Game {
         this.question_list = new Question_list();
         this.ready = new Question();
         this.ready.question = "Are you ready to start the Quiz?";
-        this.publishQuestion(this.ready);                        
+        this.publishQuestion(this.ready);
+        this.no_of_buttons = 1;                       
     }
     publishPlayer(){
         document.getElementById("user_welcome").innerHTML += this.player.name + "!";
@@ -39,10 +40,10 @@ class Game {
              
     }
     toggleSecondButton(){
-        if (this.current_question_index > 0) {
+        if ((this.current_question_index === 1) && (this.no_of_buttons === 1)) {
             let this_class = this;
             let back_button = document.createElement('button');
-            back_button.setAttribute("id", back_button);
+            back_button.setAttribute("id", "back_btn");
             back_button.classList.add("btn");
             back_button.innerText = "Previous Question";
             let section = document.getElementById("quiz_body");
@@ -51,27 +52,40 @@ class Game {
                 this_class.goBack();
             });
             section.insertBefore(back_button, next_button);
+            this_class.no_of_buttons++;
             
         }
-        if (this.current_question_index === 0) {
-            let back = document.getElementById("back_button");
-            back.remove();  
+        else if ((this.current_question_index === 0) && (this.no_of_buttons === 2)) {
+            let back = document.getElementById("back_btn");
+            console.log(back);
+            back.remove();
+            this.no_of_buttons--;
         }                    
     }
     goToNext(from_question_index){
         if (this.current_question_index > -1){
             this.rememberAnswers();
-        }
-        this.current_question_index++;      
+        }          
+        this.current_question_index++;
         this.publishQuestion(from_question_index);
+        this.toggleSecondButton();
         this.makeOptionsSelectable();
+        this.fillAnswersFromMemory();
+            
     }
-    goBack(){
-        console.log("I want to go back");
-        console.log(this.current_question_index);
-        console.log(this.current_question_index-2);
-        this.goToNext(this.current_question_index-2);
+
+    goBack(from_question_index){
+        if (this.current_question_index > -1){
+            this.rememberAnswers();
+        }             
+        this.current_question_index--;
+        this.publishQuestion(from_question_index);
+        this.toggleSecondButton();
+        this.makeOptionsSelectable();
+        this.fillAnswersFromMemory();
+         
     }
+
     makeOptionsSelectable(){
         let options = document.querySelectorAll("li.option");
         for (let i = 0; i < options.length; i++){
@@ -85,19 +99,33 @@ class Game {
             }
         }
     }
+
     rememberAnswers(){
         //Dont do this on the "ready screen"
         if (this.current_question_index > -1){
-            let answers = document.querySelectorAll("li.option");
+            let answers = document.querySelectorAll("li.option");            
             let answer_array = Array.from(answers);
-            let player_answers = this.player.answer_list
-            console.log(answer_array);
+            answer_array = answer_array.map(function(element) {
+                return element.classList.value;
+            });
+            answer_array = answer_array.map(x => x.includes("active"));
+            let player_answers = this.player.answer_list;
             player_answers[this.current_question_index] = answer_array;
-            console.log(player_answers);
+            console.log("Array of player answers below");
+            console.log(player_answers);      
         }
     }
-    publishPastAnswers(){
-        let question_options = 
-        for (let i = 0; i <)
-    }
+    fillAnswersFromMemory(){
+        let player_answers = this.player.answer_list;
+        console.log(player_answers);
+        if (this.current_question_index > -1) {
+            let options = document.querySelectorAll("li.option");
+            for (let i = 0; i < options.length; i++) {
+                console.log(player_answers[i]);
+                if (player_answers[i] == true) {
+                    options[i].classList.add("active");
+                }
+            }
+        }        
+    } 
 }
