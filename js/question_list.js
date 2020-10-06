@@ -33,9 +33,4 @@ class Question_list {
             }  
         });
     }
-    convertHTMLtags(){
-        for (let i = 0; i < this.list.length; i++){
-            
-        }
-    }
 }

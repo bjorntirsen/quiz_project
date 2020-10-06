@@ -1,37 +1,61 @@
 class Game {
     constructor(){
         this.player = new Player();
+        this.displayReadyPage();
         this.question_amount = sessionStorage.getItem("question_amount");
-        this.next_question_index = -1;
-        this.publishPlayer();
+        this.current_question_index = -1;        
         this.question_list = new Question_list();
-        this.displayPage();
-        this.no_of_buttons = 1;                       
+        this.no_of_buttons = 1;                      
     }
-    publishPlayer(){
-        document.getElementById("user_welcome").innerHTML += this.player.name + "!";
-    }
-    displayPage(index_to_display) {        
-        //This is for the "ready page"
-        if (this.next_question_index === -1) {
-            this.displayReadyPage();
-        }
-        //This is for when you are past the "ready page" clicking next   
-        else if (index_to_display == null) {
-            displayNextPage();
-        }
-        else {
-            displayP
-        }
-    }
+    
     displayReadyPage() {
+        document.getElementById("user_welcome").innerHTML += this.player.name + "!";
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         option_group.innerHTML = "";
         question_field.innerHTML = "Are you ready to start the Quiz?";
-        this.next_question_index++;
     }
-    displayNextPage() {
+
+    initializeNextButton() {
+        let that = this;
+        let btn_next = document.getElementById("btn_next");
+        btn_next.innerHTML = "Start";        
+        btn_next.addEventListener("click", function () {
+            that.nextQuestion();
+        });
+    }
+
+    nextQuestion() {
+        //As long as there is questions left to display
+        this.current_question_index++;
+        this.toggleFirstButton();
+        this.toggleSecondButton();
+        let question_field = document.getElementById("question_field");
+        let option_group = document.getElementById("option_group");
+        this.rememberAnswers();   
+        option_group.innerHTML = "";
+        if (this.current_question_index < this.question_amount) {
+            console.log("I'm about to display question index below");
+            console.log(this.current_question_index);            
+            let displayed_question = this.question_list.list[this.current_question_index];
+            console.log("The displayed question is");
+            console.log(displayed_question);
+            question_field.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
+            for (let i = 0; i < displayed_question.answers.length; i++) {
+                if (displayed_question.answers[i][1] != null) {
+                    let li_option = document.createElement('li');
+                    li_option.setAttribute("id", i);
+                    li_option.classList.add("option");
+                    li_option.innerText = displayed_question.answers[i][1];
+                    option_group.append(li_option);                    
+                }                
+            }
+            this.makeOptionsSelectable();
+            this.fillAnswersFromMemory();
+        }
+    }
+
+    previousQuestion() {
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();   
@@ -52,29 +76,23 @@ class Game {
         this.next_question_index++;
         console.log(this.current_question_index);
     }
-    displayPreviousPage() {
-        let question_field = document.getElementById("question_field");
-        let option_group = document.getElementById("option_group");
-        this.rememberAnswers();   
-        option_group.innerHTML = "";
-        let displayed_question = this.question_list.list[this.current_question_index];
-        console.log("The displayed question is");
-        console.log(displayed_question);
-        question.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
-        for (let i = 0; i < displayed_question.answers.length; i++) {
-            if (displayed_question.answers[i][1] != null) {
-                let li_option = document.createElement('li');
-                li_option.setAttribute("id", i);
-                li_option.classList.add("option");
-                li_option.innerText = displayed_question.answers[i][1];
-                option_group.append(li_option);                    
-            }                
+
+    toggleFirstButton() {
+        let btn_next = document.getElementById("btn_next");
+        if (this.current_question_index === 0) {
+            btn_next.innerHTML = "Next Question";
         }
-        this.next_question_index++;
-        console.log(this.current_question_index);
+        else if (this.current_question_index == this.question_amount) {
+            btn_next.innerHTML = "Submit Your Answers";
+        } 
     }
-    toggleSecondButton(){
+
+    toggleSecondButton() {
+        console.log("inside second button");
+        console.log(this.current_question_index);
+        console.log(this.no_of_buttons);
         if ((this.current_question_index === 1) && (this.no_of_buttons === 1)) {
+            
             let this_class = this;
             let back_button = document.createElement('button');
             back_button.setAttribute("id", "back_btn");
@@ -95,17 +113,6 @@ class Game {
             this.no_of_buttons--;
         }                    
     }
-    goToNext(from_question_index){
-        if (this.current_question_index > -1){
-            this.rememberAnswers();
-        }          
-        this.current_question_index++;
-        this.publishQuestion(from_question_index);
-        this.toggleSecondButton();
-        this.makeOptionsSelectable();
-        this.fillAnswersFromMemory();
-            
-    }
 
     goBack(from_question_index){
         if (this.current_question_index > -1){
@@ -114,8 +121,7 @@ class Game {
         this.current_question_index--;
         this.publishQuestion(from_question_index);
         this.toggleSecondButton();
-        this.makeOptionsSelectable();
-        this.fillAnswersFromMemory();
+        
          
     }
 
