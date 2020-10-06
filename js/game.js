@@ -25,26 +25,29 @@ class Game {
         });
     }
 
-    nextQuestion() {        
-        //As long as there is questions left to display
-        this.current_question_index++;        
+    nextQuestion() {
+        //Increasing the current_question_index
+        this.current_question_index++;
+        console.log("I'm about to display question index below");
+        console.log(this.current_question_index);
+        //This is to start over at the end
+        if (this.current_question_index == (Number(this.question_amount)+1)) {
+            location.href = "index.html";
+        }
+        else
         this.toggleFirstButton();
         /* this.toggleSecondButton(); */
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();
         option_group.innerHTML = "";
-        if (this.current_question_index == this.question_amount+1) {
-            console.log("I want to try again");
-            location.href = "index.html";
-        }
-        else if (this.current_question_index == this.question_amount) {
+        
+        if (this.current_question_index == this.question_amount) {
             this.correct();
             this.scorePage();
         }        
         else if (this.current_question_index < this.question_amount) {
-            console.log("I'm about to display question index below");
-            console.log(this.current_question_index);            
+                       
             let displayed_question = this.question_list.list[this.current_question_index];
             console.log("The displayed question is");
             console.log(displayed_question);
@@ -187,7 +190,7 @@ class Game {
         }        
     }  */
 
-    correct() {
+    /* correct() {
         let player_answers = this.player.answer_list;
         let score = this.player.score;
         let possible_score = this.player.possible_score; 
@@ -222,15 +225,64 @@ class Game {
                 console.log(score);
             }
         }
+        this.player.possible_score = possible_score;
+        this.player.score = score;
         console.log("score below");
         console.log(score);
         console.log("possible_score below");
         console.log(possible_score);
+        console.log(this.player.possible_score);
+    } */
+
+    correct() {
+        let player_answers = this.player.answer_list;
+        let score = 0;
+        let possible_score = this.player.possible_score; 
+        console.log("------------   ENTERING CORRECT METHOD 2222222   ------------");
+        console.log("player_answers below");
+        console.log(player_answers);
+        for (let i = 0; i < this.question_amount; i++) {
+            console.log("i below");
+            console.log(i);            
+            console.log("player_answers[i] below");
+            console.log(player_answers[i]);
+            let corr_answers = this.question_list.list[i].correct_answers;
+            console.log("corr_answers below");
+            console.log(corr_answers);
+            //Count the number of correct answers in each question
+            let corr_answers2 = corr_answers.filter(Boolean).length;
+            console.log("corr_answers2 below");
+            console.log(corr_answers2);
+            possible_score += corr_answers2;
+            for (let j = 0; j <player_answers[i].length; j++) {
+                console.log("j below");
+                console.log(j);
+                console.log("player_answers[i][j] below");
+                console.log(player_answers[i][j]);
+                console.log("corr_answers[j] below");
+                console.log(corr_answers[j]);
+                if (player_answers[i][j] !== corr_answers[j]) {
+                    break
+                }
+                else
+                console.log(i+"was correct!");
+                score++;
+                console.log("score below");
+                console.log(score);
+            }
+        }
+        this.player.possible_score = possible_score;
+        this.player.score = score;
+        console.log("score below");
+        console.log(score);
+        console.log("possible_score below");
+        console.log(possible_score);
+        console.log(this.player.possible_score);
     }
 
     scorePage() {
         //Increasing index
-        this.current_question_index++;       
+        /* this.current_question_index++;   */     
         this.toggleFirstButton();
         /* this.toggleSecondButton(); */
         document.getElementById("user_welcome").innerHTML = "Congratulations "+ this.player.name + "!";

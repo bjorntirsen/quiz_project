@@ -16,6 +16,8 @@ class Form {
         }
         else
         alert("Please enter your name")
-        focus.getElementById("input_field");
+        //Not working below
+        let input_field = document.getElementById("input_field");
+        focus.input_field;
     }
 }
