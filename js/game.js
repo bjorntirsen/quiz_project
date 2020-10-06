@@ -2,42 +2,76 @@ class Game {
     constructor(){
         this.player = new Player();
         this.question_amount = sessionStorage.getItem("question_amount");
-        this.current_question_index = -1;
+        this.next_question_index = -1;
         this.publishPlayer();
         this.question_list = new Question_list();
-        this.ready = new Question();
-        this.ready.question = "Are you ready to start the Quiz?";
-        this.publishQuestion(this.ready);
+        this.displayPage();
         this.no_of_buttons = 1;                       
     }
     publishPlayer(){
         document.getElementById("user_welcome").innerHTML += this.player.name + "!";
     }
-    publishQuestion(question_index){
-        let question = document.getElementById("question");
-        let option_group = document.getElementById("option_group");
-        option_group.innerHTML = ""; 
-        if (question_index === this.ready){
-            question.innerHTML = this.ready.question;
-        }        
-        else {        
-            let displayed_question = this.question_list.list[this.current_question_index];
-            console.log("The displayed question is");
-            console.log(displayed_question);
-            question.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
-            for (let i = 0; i < displayed_question.answers.length; i++) {
-                if (displayed_question.answers[i][1] != null) {
-                    let li_option = document.createElement('li');
-                    li_option.setAttribute("id", i);
-                    li_option.classList.add("option");
-                    li_option.innerText = displayed_question.answers[i][1];
-                    option_group.append(li_option);                    
-                }                
-            }
-            
-            console.log(this.current_question_index);
+    displayPage(index_to_display) {        
+        //This is for the "ready page"
+        if (this.next_question_index === -1) {
+            this.displayReadyPage();
         }
-             
+        //This is for when you are past the "ready page" clicking next   
+        else if (index_to_display == null) {
+            displayNextPage();
+        }
+        else {
+            displayP
+        }
+    }
+    displayReadyPage() {
+        let question_field = document.getElementById("question_field");
+        let option_group = document.getElementById("option_group");
+        option_group.innerHTML = "";
+        question_field.innerHTML = "Are you ready to start the Quiz?";
+        this.next_question_index++;
+    }
+    displayNextPage() {
+        let question_field = document.getElementById("question_field");
+        let option_group = document.getElementById("option_group");
+        this.rememberAnswers();   
+        option_group.innerHTML = "";
+        let displayed_question = this.question_list.list[this.current_question_index];
+        console.log("The displayed question is");
+        console.log(displayed_question);
+        question.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
+        for (let i = 0; i < displayed_question.answers.length; i++) {
+            if (displayed_question.answers[i][1] != null) {
+                let li_option = document.createElement('li');
+                li_option.setAttribute("id", i);
+                li_option.classList.add("option");
+                li_option.innerText = displayed_question.answers[i][1];
+                option_group.append(li_option);                    
+            }                
+        }
+        this.next_question_index++;
+        console.log(this.current_question_index);
+    }
+    displayPreviousPage() {
+        let question_field = document.getElementById("question_field");
+        let option_group = document.getElementById("option_group");
+        this.rememberAnswers();   
+        option_group.innerHTML = "";
+        let displayed_question = this.question_list.list[this.current_question_index];
+        console.log("The displayed question is");
+        console.log(displayed_question);
+        question.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
+        for (let i = 0; i < displayed_question.answers.length; i++) {
+            if (displayed_question.answers[i][1] != null) {
+                let li_option = document.createElement('li');
+                li_option.setAttribute("id", i);
+                li_option.classList.add("option");
+                li_option.innerText = displayed_question.answers[i][1];
+                option_group.append(li_option);                    
+            }                
+        }
+        this.next_question_index++;
+        console.log(this.current_question_index);
     }
     toggleSecondButton(){
         if ((this.current_question_index === 1) && (this.no_of_buttons === 1)) {
