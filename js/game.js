@@ -181,7 +181,9 @@ class Game {
     }  */
 
     correct() {
-        let player_answers = this.player.answer_list;        
+        let player_answers = this.player.answer_list;
+        let score = this.player.score;
+        let possible_score = this.player.possible_score;   
         console.log("player_answers below");
         console.log(player_answers);
         for (let i = 0; i < this.question_amount; i++) {
@@ -195,15 +197,23 @@ class Game {
             for (let j = 0; j <player_answers[i].length; j++) {
                 console.log("j below");
                 console.log(j);
-                if (displayed_question.answers[i][1] != null) {
-                    let li_option = document.createElement('li');
-                    li_option.setAttribute("id", i);
-                    li_option.classList.add("option");
-                    li_option.innerText = displayed_question.answers[i][1];
-                    option_group.append(li_option);                    
-                }                   
-            }            
+                console.log("player_answers[i][j] below");
+                console.log(player_answers[i][j]);
+                console.log("corr_answers[j] below");
+                console.log(corr_answers[j]);
+                if (player_answers[i][j] !== corr_answers[j]) {
+                    possible_score;
+                }
+                else {
+                    score++;
+                    console.log("SCORE!!!!");
+                }
+                console.log("score below");
+                console.log(score);
+            }
         }
+        console.log("score below");
+        console.log(score);
     }
 
     scorePage() {
