@@ -27,14 +27,18 @@ class Game {
 
     nextQuestion() {
         //As long as there is questions left to display
-        this.current_question_index++;
+        this.current_question_index++;        
         this.toggleFirstButton();
-        this.toggleSecondButton();
+        /* this.toggleSecondButton(); */
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
-        this.rememberAnswers();   
+        this.rememberAnswers();
         option_group.innerHTML = "";
-        if (this.current_question_index < this.question_amount) {
+        if (this.current_question_index == this.question_amount) {
+            this.correct();
+            this.scorePage();
+        }
+        else if (this.current_question_index < this.question_amount) {
             console.log("I'm about to display question index below");
             console.log(this.current_question_index);            
             let displayed_question = this.question_list.list[this.current_question_index];
@@ -51,11 +55,11 @@ class Game {
                 }                
             }
             this.makeOptionsSelectable();
-            this.fillAnswersFromMemory();
+            /* this.fillAnswersFromMemory(); */
         }
     }
 
-    previousQuestion() {
+    /* previousQuestion() {
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();   
@@ -75,19 +79,19 @@ class Game {
         }
         this.next_question_index++;
         console.log(this.current_question_index);
-    }
+    } */
 
     toggleFirstButton() {
         let btn_next = document.getElementById("btn_next");
         if (this.current_question_index === 0) {
             btn_next.innerHTML = "Next Question";
         }
-        else if (this.current_question_index == this.question_amount) {
+        else if (this.current_question_index == this.question_amount-1) {
             btn_next.innerHTML = "Submit Your Answers";
         } 
     }
 
-    toggleSecondButton() {
+    /* toggleSecondButton() {
         console.log("inside second button");
         console.log(this.current_question_index);
         console.log(this.no_of_buttons);
@@ -112,9 +116,9 @@ class Game {
             back.remove();
             this.no_of_buttons--;
         }                    
-    }
+    } */
 
-    goBack(from_question_index){
+    /* goBack(from_question_index){
         if (this.current_question_index > -1){
             this.rememberAnswers();
         }             
@@ -123,7 +127,7 @@ class Game {
         this.toggleSecondButton();
         
          
-    }
+    } */
 
     makeOptionsSelectable(){
         let options = document.querySelectorAll("li.option");
@@ -141,7 +145,7 @@ class Game {
 
     rememberAnswers(){
         //Dont do this on the "ready screen"
-        if (this.current_question_index > -1){
+        if (this.current_question_index > 0){
             let answers = document.querySelectorAll("li.option");            
             let answer_array = Array.from(answers);
             answer_array = answer_array.map(function(element) {
@@ -154,7 +158,8 @@ class Game {
             console.log(player_answers);      
         }
     }
-    fillAnswersFromMemory(){
+
+    /* fillAnswersFromMemory(){
         let player_answers = this.player.answer_list;
         console.log(player_answers);
         if (this.current_question_index > -1) {
@@ -169,5 +174,26 @@ class Game {
                 }
             }
         }        
-    } 
+    }  */
+
+    correct() {
+        
+        for (let i = 0; i < this.question_amount; i++) {
+            let correct_answers = this.question_list.list[i].correct_answers;
+            console.log(player_answers);
+            console.log(correct_answers.length);
+            for (let j = 0; j <correct_answers.length; j++)
+            if (displayed_question.answers[i][1] != null) {
+                let li_option = document.createElement('li');
+                li_option.setAttribute("id", i);
+                li_option.classList.add("option");
+                li_option.innerText = displayed_question.answers[i][1];
+                option_group.append(li_option);                    
+            }                
+        }
+    }
+
+    scorePage() {
+
+    }
 }
