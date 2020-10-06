@@ -241,7 +241,7 @@ class Game {
         console.log("------------   ENTERING CORRECT METHOD 2222222   ------------");
         console.log("player_answers below");
         console.log(player_answers);
-        for (let i = 0; i < this.question_amount; i++) {
+        for (var i = 0; i < player_answers.length; i++) {
             console.log("i below");
             console.log(i);            
             console.log("player_answers[i] below");
@@ -254,22 +254,20 @@ class Game {
             console.log("corr_answers2 below");
             console.log(corr_answers2);
             possible_score += corr_answers2;
-            for (let j = 0; j <player_answers[i].length; j++) {
-                console.log("j below");
-                console.log(j);
-                console.log("player_answers[i][j] below");
-                console.log(player_answers[i][j]);
-                console.log("corr_answers[j] below");
-                console.log(corr_answers[j]);
-                if (player_answers[i][j] !== corr_answers[j]) {
-                    break
-                }
-                else
-                console.log(i+"was correct!");
+            //Need to slice array here
+            let tmp = corr_answers.length - player_answers[i].length;
+            console.log(tmp);
+            let tmp2 = corr_answers.length - tmp;
+            console.log(tmp);
+            corr_answers = corr_answers.slice(0, tmp2)
+            if (player_answers[i] == corr_answers) {
+                console.log(i + "was correct");
                 score++;
-                console.log("score below");
-                console.log(score);
+            } else if (player_answers[i] != corr_answers) {
+                console.log(i + "was incorrect");
             }
+            console.log("score below");
+            console.log(score);            
         }
         this.player.possible_score = possible_score;
         this.player.score = score;
