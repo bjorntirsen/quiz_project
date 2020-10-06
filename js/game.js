@@ -34,10 +34,14 @@ class Game {
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();
         option_group.innerHTML = "";
-        if (this.current_question_index == this.question_amount) {
+        if (this.current_question_index == this.question_amount+1) {
+            console.log("I want to try again");
+            location.href = "index.html";
+        }
+        else if (this.current_question_index == this.question_amount) {
             this.correct();
             this.scorePage();
-        }
+        }        
         else if (this.current_question_index < this.question_amount) {
             console.log("I'm about to display question index below");
             console.log(this.current_question_index);            
@@ -91,7 +95,10 @@ class Game {
         }
         else if (this.current_question_index == this.question_amount-1) {
             btn_next.innerHTML = "Submit Your Answers";
-        } 
+        }
+        else if (this.current_question_index == this.question_amount) {
+            btn_next.innerHTML = "Try Again";
+        }
     }
 
     /* toggleSecondButton() {
@@ -183,7 +190,8 @@ class Game {
     correct() {
         let player_answers = this.player.answer_list;
         let score = this.player.score;
-        let possible_score = this.player.possible_score;   
+        let possible_score = this.player.possible_score; 
+        console.log("%%%%%%%%%%%%   ENTERING CORRECT METHOD   %%%%%%%%%%%%%%%%%");
         console.log("player_answers below");
         console.log(player_answers);
         for (let i = 0; i < this.question_amount; i++) {
@@ -192,8 +200,13 @@ class Game {
             console.log("player_answers[i] below");
             console.log(player_answers[i]);
             let corr_answers = this.question_list.list[i].correct_answers;
-        console.log("corr_answers below");
-        console.log(corr_answers);       
+            console.log("corr_answers below");
+            console.log(corr_answers);
+            //Count the number of correct answers in each question
+            let corr_answers2 = corr_answers.filter(Boolean).length;
+            console.log("corr_answers2 below");
+            console.log(corr_answers2);
+            possible_score += corr_answers2;
             for (let j = 0; j <player_answers[i].length; j++) {
                 console.log("j below");
                 console.log(j);
@@ -201,10 +214,7 @@ class Game {
                 console.log(player_answers[i][j]);
                 console.log("corr_answers[j] below");
                 console.log(corr_answers[j]);
-                if (player_answers[i][j] !== corr_answers[j]) {
-                    possible_score;
-                }
-                else {
+                if ((player_answers[i][j] === corr_answers[j]) && (player_answers[i][j] === true)) {
                     score++;
                     console.log("SCORE!!!!");
                 }
@@ -214,9 +224,30 @@ class Game {
         }
         console.log("score below");
         console.log(score);
+        console.log("possible_score below");
+        console.log(possible_score);
     }
 
     scorePage() {
-
+        //Increasing index
+        this.current_question_index++;       
+        this.toggleFirstButton();
+        /* this.toggleSecondButton(); */
+        document.getElementById("user_welcome").innerHTML = "Congratulations "+ this.player.name + "!";
+        let question_field = document.getElementById("question_field");
+        let option_group = document.getElementById("option_group");
+        option_group.innerHTML = "";
+        console.log("I'm about to display THE SCORE PAGE");
+        console.log(this.current_question_index);
+        question_field.innerText = "You have completed the quiz:"
+        for (let i = 0; i < 3; i++) {
+            let li_option = document.createElement('li');
+            li_option.setAttribute("id", i);
+            li_option.classList.add("option");
+            option_group.append(li_option);
+        }
+        document.getElementById(0).innerHTML = "There were "+this.question_amount+" questions.";
+        document.getElementById(1).innerHTML = "There were "+this.player.possible_score+" possible correct answers.";
+        document.getElementById(2).innerHTML = "Your score was "+this.player.score+" out of "+this.player.possible_score+".";
     }
 }
