@@ -25,7 +25,7 @@ class Game {
         });
     }
 
-    nextQuestion() {
+    nextQuestion() {        
         //As long as there is questions left to display
         this.current_question_index++;        
         this.toggleFirstButton();
@@ -44,6 +44,9 @@ class Game {
             let displayed_question = this.question_list.list[this.current_question_index];
             console.log("The displayed question is");
             console.log(displayed_question);
+            let corr_answers = this.question_list.list[this.current_question_index].correct_answers;
+            console.log("corr_answers below");
+            console.log(corr_answers);   
             question_field.innerText = "Q"+(this.current_question_index+1)+": "+displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
@@ -146,6 +149,7 @@ class Game {
     rememberAnswers(){
         //Dont do this on the "ready screen"
         if (this.current_question_index > 0){
+            //Creates an array of booleans with player answers
             let answers = document.querySelectorAll("li.option");            
             let answer_array = Array.from(answers);
             answer_array = answer_array.map(function(element) {
@@ -153,7 +157,7 @@ class Game {
             });
             answer_array = answer_array.map(x => x.includes("active"));
             let player_answers = this.player.answer_list;
-            player_answers[this.current_question_index] = answer_array;
+            player_answers[this.current_question_index-1] = answer_array;
             console.log("Array of player answers below");
             console.log(player_answers);      
         }
@@ -177,19 +181,28 @@ class Game {
     }  */
 
     correct() {
-        
+        let player_answers = this.player.answer_list;        
+        console.log("player_answers below");
+        console.log(player_answers);
         for (let i = 0; i < this.question_amount; i++) {
-            let correct_answers = this.question_list.list[i].correct_answers;
-            console.log(player_answers);
-            console.log(correct_answers.length);
-            for (let j = 0; j <correct_answers.length; j++)
-            if (displayed_question.answers[i][1] != null) {
-                let li_option = document.createElement('li');
-                li_option.setAttribute("id", i);
-                li_option.classList.add("option");
-                li_option.innerText = displayed_question.answers[i][1];
-                option_group.append(li_option);                    
-            }                
+            console.log("i below");
+            console.log(i);            
+            console.log("player_answers[i] below");
+            console.log(player_answers[i]);
+            let corr_answers = this.question_list.list[i].correct_answers;
+        console.log("corr_answers below");
+        console.log(corr_answers);       
+            for (let j = 0; j <player_answers[i].length; j++) {
+                console.log("j below");
+                console.log(j);
+                if (displayed_question.answers[i][1] != null) {
+                    let li_option = document.createElement('li');
+                    li_option.setAttribute("id", i);
+                    li_option.classList.add("option");
+                    li_option.innerText = displayed_question.answers[i][1];
+                    option_group.append(li_option);                    
+                }                   
+            }            
         }
     }
 

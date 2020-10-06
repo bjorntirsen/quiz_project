@@ -20,7 +20,11 @@ class Question_list {
                 question.answers = Object.keys(data[i].answers).map((key) => [key, data[i].answers[key]]);
                 question.category = data[i].category;        
                 question.correct_answer = data[i].correct_answer;
-                question.correct_answers = Object.keys(data[i].correct_answers).map((key) => [key, data[i].correct_answers[key]]);
+                //Mapping out the keys from the JSON object into an
+                //array of true or false in string
+                question.correct_answers = Object.keys(data[i].correct_answers).map((key) => [data[i].correct_answers[key]]);
+                //Converting the strings to booleans
+                question.correct_answers = question.correct_answers.map((val) => (val == "true"));
                 question.description = data[i].description;
                 question.difficulty = data[i].difficulty;
                 question.explanation = data[i].explanation;
