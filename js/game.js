@@ -254,28 +254,27 @@ class Game {
             console.log("corr_answers2 below");
             console.log(corr_answers2);
             possible_score += corr_answers2;
-            //Need to slice array here
-            let tmp = corr_answers.length - player_answers[i].length;
-            console.log(tmp);
-            let tmp2 = corr_answers.length - tmp;
-            console.log(tmp);
-            corr_answers = corr_answers.slice(0, tmp2)
-            if (player_answers[i] == corr_answers) {
+            //Slicing answers array into equal length
+            corr_answers = corr_answers.slice(0, player_answers[i].length);
+            //Comparing player answers to correct answers
+            if (this.arraysEqual(player_answers[i], corr_answers) == true) {
                 console.log(i + "was correct");
                 score++;
-            } else if (player_answers[i] != corr_answers) {
-                console.log(i + "was incorrect");
             }
-            console.log("score below");
-            console.log(score);            
+            else console.log(i + "was incorrect");
         }
         this.player.possible_score = possible_score;
         this.player.score = score;
-        console.log("score below");
-        console.log(score);
-        console.log("possible_score below");
-        console.log(possible_score);
-        console.log(this.player.possible_score);
+    }
+
+    arraysEqual(a, b) {
+        /* if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;    */   
+        for (var i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
     }
 
     scorePage() {
@@ -293,7 +292,7 @@ class Game {
         for (let i = 0; i < 3; i++) {
             let li_option = document.createElement('li');
             li_option.setAttribute("id", i);
-            li_option.classList.add("option");
+            li_option.classList.add("score");
             option_group.append(li_option);
         }
         document.getElementById(0).innerHTML = "There were "+this.question_amount+" questions.";
