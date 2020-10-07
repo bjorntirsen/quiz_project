@@ -6,6 +6,8 @@ class Game {
         this.current_question_index = -1;
         this.question_list = new Question_list();
         this.no_of_buttons = 1;
+        this.no_of_timers = 0;
+        this.timer = null;
     }
 
     displayReadyPage() {
@@ -17,26 +19,29 @@ class Game {
     }
 
     initializeNextButton() {
+        
         let that = this;
         let btn_next = document.getElementById("btn_next");
         btn_next.innerHTML = "Start";
         btn_next.addEventListener("click", function () {
             that.nextQuestion();
+            if ((that.no_of_timers === 0) && (that.current_question_index === 0)) {
+                that.timer = new Timer();
+                that.no_of_timers++;
+            }  
         });
     }
 
+    //Method used when clicking "next" button
     nextQuestion() {
-        //Increasing the current_question_index
         this.current_question_index++;
-        console.log("I'm about to display question index below");
-        console.log(this.current_question_index);
-        //This is to start over at the end
+        console.log("I'm about to display question index: " + this.current_question_index);
+        //If you've reached end of quiz you can start over
         if (this.current_question_index == (Number(this.question_amount) + 1)) {
             location.href = "index.html";
         }
         else
-            this.toggleFirstButton();
-        /* this.toggleSecondButton(); */
+        this.toggleFirstButton();
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();
@@ -46,7 +51,7 @@ class Game {
             this.correct();
             this.scorePage();
         }
-        
+
         else if (this.current_question_index < this.question_amount) {
 
             let displayed_question = this.question_list.list[this.current_question_index];
@@ -163,7 +168,7 @@ class Game {
         console.log("I'm about to display THE SCORE PAGE");
         console.log(this.current_question_index);
         question_field.innerText = "You have completed the quiz:"
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             let li_option = document.createElement('li');
             li_option.setAttribute("id", i);
             li_option.classList.add("score");
@@ -172,5 +177,6 @@ class Game {
         document.getElementById(0).innerHTML = "There were " + this.question_amount + " questions.";
         document.getElementById(1).innerHTML = "There were " + this.player.possible_score + " possible correct answers.";
         document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.player.possible_score + ".";
+        document.getElementById(3).innerHTML = "It took you " + this.timer.minutes + " minutes and " + this.timer.seconds + " seconds to complete the quiz.";
     }
 }
