@@ -1,5 +1,6 @@
 class Form {
-    constructor() {
+    constructor() {        
+        this.initializeSubmitButton();
     }
     submitForm() {
         if (document.getElementById("input_field").value.trim() != "") {
@@ -18,5 +19,15 @@ class Form {
             alert("Please enter your name");
             document.getElementById("input_field").focus();
         }
+    }
+
+    initializeSubmitButton() {
+        let that = this;
+        let submit_button = document.getElementById("submit_button");
+        submit_button.addEventListener("click", function(event){
+            /* Preventing error from submit button below */
+            event.preventDefault(event);
+            that.submitForm();
+        })
     }
 }

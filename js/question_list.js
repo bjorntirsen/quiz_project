@@ -3,9 +3,9 @@ class Question_list {
         this.question_amount = sessionStorage.getItem("question_amount");          
         this.list = [];
     }
-    fetchQuestions(question_amount) {
-        const list = this.list;
-        fetch("https://quizapi.io/api/v1/questions?category=code&limit="+question_amount, {
+    async fetchQuestions(question_amount, main_object) {
+        let list = this.list;
+        await fetch("https://quizapi.io/api/v1/questions?category=code&limit="+question_amount, {
             headers: {
                 "X-Api-Key": "IfB2IekyprvvccI060Y5FwUAkczl7pI2CFVJKzhZ",
             }
@@ -18,23 +18,15 @@ class Question_list {
                 //Converting key-value pairs of object into array and
                 //inserting that array into proper place in object
                 question.answers = Object.keys(data[i].answers).map((key) => [key, data[i].answers[key]]);
-                question.category = data[i].category;        
-                question.correct_answer = data[i].correct_answer;
                 //Mapping out the keys from the JSON object into an
                 //array of true or false in string
                 question.correct_answers = Object.keys(data[i].correct_answers).map((key) => [data[i].correct_answers[key]]);
                 //Converting the strings to booleans
                 question.correct_answers = question.correct_answers.map((val) => (val == "true"));
-                question.description = data[i].description;
-                question.difficulty = data[i].difficulty;
-                question.explanation = data[i].explanation;
-                question.id = data[i].id;
-                question.multiple_correct_answers = data[i].multiple_correct_answers;
                 question.question = data[i].question;
-                /* question.tags = data[i].tags; */
-                question.tip = data[i].tip;
                 list.push(question);
             }  
         });
+        main_object.initializeNextButton();        
     }
 }

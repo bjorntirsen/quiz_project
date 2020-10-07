@@ -8,6 +8,7 @@ class Game {
         this.no_of_buttons = 1;
         this.no_of_timers = 0;
         this.timer = null;
+        this.question_list.fetchQuestions(this.question_amount, this);        
     }
 
     displayReadyPage() {
@@ -18,8 +19,7 @@ class Game {
         question_field.innerHTML = "Are you ready to start the Quiz?";
     }
 
-    initializeNextButton() {
-        
+    initializeNextButton() {        
         let that = this;
         let btn_next = document.getElementById("btn_next");
         btn_next.innerHTML = "Start";
@@ -30,12 +30,12 @@ class Game {
                 that.no_of_timers++;
             }  
         });
+        btn_next.classList.remove("invisible")
     }
 
     //Method used when clicking "next" button
     nextQuestion() {
-        this.current_question_index++;
-        console.log("I'm about to display question index: " + this.current_question_index);
+        this.current_question_index++;       
         //If you've reached end of quiz you can start over
         if (this.current_question_index == (Number(this.question_amount) + 1)) {
             location.href = "index.html";
@@ -53,13 +53,10 @@ class Game {
         }
 
         else if (this.current_question_index < this.question_amount) {
-
             let displayed_question = this.question_list.list[this.current_question_index];
-            console.log("The displayed question is");
-            console.log(displayed_question);
             let corr_answers = this.question_list.list[this.current_question_index].correct_answers;
-            console.log("corr_answers below");
-            console.log(corr_answers);
+            console.log("Now I'm displaying question index: " + this.current_question_index);
+            console.log("The correct answers are: "+corr_answers);
             question_field.innerText = "Q" + (this.current_question_index + 1) + ": " + displayed_question.question;
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
@@ -114,8 +111,7 @@ class Game {
             answer_array = answer_array.map(x => x.includes("active"));
             let player_answers = this.player.answer_list;
             player_answers[this.current_question_index - 1] = answer_array;
-            console.log("Array of player answers below");
-            console.log(player_answers);
+            console.log("You chose the following answers: " + player_answers[this.current_question_index - 1]);
         }
     }
 
@@ -123,29 +119,21 @@ class Game {
         let player_answers = this.player.answer_list;
         let score = 0;
         let possible_score = this.player.possible_score;
-        console.log("player_answers below");
+        console.log("All your answers are printed below");
         console.log(player_answers);
         for (var i = 0; i < player_answers.length; i++) {
-            console.log("i below");
-            console.log(i);
-            console.log("player_answers[i] below");
-            console.log(player_answers[i]);
             let corr_answers = this.question_list.list[i].correct_answers;
-            console.log("corr_answers below");
-            console.log(corr_answers);
             //Count the number of correct answers in each question
             let corr_answers2 = corr_answers.filter(Boolean).length;
-            console.log("corr_answers2 below");
-            console.log(corr_answers2);
             possible_score += corr_answers2;
             //Slicing answers array into equal length
             corr_answers = corr_answers.slice(0, player_answers[i].length);
             //Comparing player answers to correct answers
             if (this.arraysEqual(player_answers[i], corr_answers) == true) {
-                console.log(i + "was correct");
+                console.log("Question index " + i + " was correct");
                 score++;
             }
-            else console.log(i + "was incorrect");
+            else console.log("Question index " + i + " was incorrect");
         }
         this.player.possible_score = possible_score;
         this.player.score = score;
@@ -167,8 +155,6 @@ class Game {
         option_group.innerHTML = "";
         let timer = document.getElementById("timer");
         timer.classList.add("invisible");
-        console.log("I'm about to display THE SCORE PAGE");
-        console.log(this.current_question_index);
         question_field.innerText = "You have completed the quiz:"
         for (let i = 0; i < 4; i++) {
             let li_option = document.createElement('li');
