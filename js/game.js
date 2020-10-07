@@ -5,7 +5,6 @@ class Game {
         this.question_amount = sessionStorage.getItem("question_amount");
         this.current_question_index = -1;
         this.question_list = new Question_list();
-        this.no_of_buttons = 1;
         this.no_of_timers = 0;
         this.timer = null;
         this.question_list.fetchQuestions(this.question_amount, this);        
@@ -36,32 +35,35 @@ class Game {
         });
         btn_next.classList.remove("invisible")
     }
-
-    //Method used when clicking "next" button
+    //Method executed when clicking "next" button
     nextQuestion() {
         this.current_question_index++;       
-        //If you've reached end of quiz you can start over
+        //If you've reached the score screen of quiz you can start over
         if (this.current_question_index == (Number(this.question_amount) + 1)) {
             location.href = "index.html";
         }
         else
+        //Method to control the text of the "next" button
         this.toggleFirstButton();
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         this.rememberAnswers();
         option_group.innerHTML = "";
-
+        //If you are at the last question of the quiz
         if (this.current_question_index == this.question_amount) {
             this.correct();
             this.scorePage();
         }
-
+        //This is the most common "next question" functionality
         else if (this.current_question_index < this.question_amount) {
             let displayed_question = this.question_list.list[this.current_question_index];
             let corr_answers = this.question_list.list[this.current_question_index].correct_answers;
+            //There are some console.logs to use if you want to see the correct answers
             console.log("Now I'm displaying question index: " + this.current_question_index);
             console.log("The correct answers are: "+corr_answers);
+            //Displaying question and its number
             question_field.innerText = "Q" + (this.current_question_index + 1) + ": " + displayed_question.question;
+            //Displaying all the selectable answers
             for (let i = 0; i < displayed_question.answers.length; i++) {
                 if (displayed_question.answers[i][1] != null) {
                     let li_option = document.createElement('li');
@@ -74,7 +76,7 @@ class Game {
             this.makeOptionsSelectable();
         }
     }
-
+    //Method to control the text of the "next" button
     toggleFirstButton() {
         let btn_next = document.getElementById("btn_next");
         if (this.current_question_index === 0) {
@@ -87,8 +89,7 @@ class Game {
             btn_next.innerHTML = "Try Again";
         }
     }
-
-
+    //Method to make multiple options selectable
     makeOptionsSelectable() {
         let options = document.querySelectorAll("li.option");
         for (let i = 0; i < options.length; i++) {
@@ -102,7 +103,7 @@ class Game {
             }
         }
     }
-
+    //Method to remember your selected answers
     rememberAnswers() {
         //Dont do this on the "ready screen"
         if (this.current_question_index > 0) {
@@ -118,7 +119,7 @@ class Game {
             console.log("You chose the following answers: " + player_answers[this.current_question_index - 1]);
         }
     }
-
+    //Check how namy questions you answered correctly
     correct() {
         let player_answers = this.player.answer_list;
         let score = 0;
@@ -142,15 +143,14 @@ class Game {
         this.player.possible_score = possible_score;
         this.player.score = score;
     }
-
+    //Help method to correct() checking if two arrays are equal
     arraysEqual(a, b) {
         for (var i = 0; i < a.length; ++i) {
             if (a[i] !== b[i]) return false;
         }
         return true;
     }
-
-    //Displaying the score page
+    //Method for displaying the score page
     scorePage() { 
         this.toggleFirstButton();
         document.getElementById("user_welcome").innerHTML = "Congratulations " + this.player.name + "!";

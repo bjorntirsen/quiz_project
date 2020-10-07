@@ -7,7 +7,4 @@ class Player {
         this.score = 0;
         this.possible_score = 0;
     }
-    next(){
-        this.question_count++;
-    }
 }
