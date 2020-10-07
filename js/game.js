@@ -16,6 +16,10 @@ class Game {
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         option_group.innerHTML = "";
+        let li_option = document.createElement('li');
+        li_option.setAttribute("id", "fetching");
+        li_option.innerText = "Fetching questions..."
+        option_group.append(li_option);
         question_field.innerHTML = "Are you ready to start the Quiz?";
     }
 

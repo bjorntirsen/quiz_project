@@ -27,6 +27,7 @@ class Question_list {
                 list.push(question);
             }  
         });
-        main_object.initializeNextButton();        
+        main_object.initializeNextButton();
+        document.getElementById("fetching").classList.add("invisible");        
     }
 }
