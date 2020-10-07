@@ -1,7 +1,7 @@
 class Form {
-    constructor(){                
+    constructor() {
     }
-    submitForm(){
+    submitForm() {
         if (document.getElementById("input_field").value.trim() != "") {
             //Getting and storing player name in session storage
             let name = document.getElementById("input_field").value;
@@ -10,14 +10,13 @@ class Form {
             let question_amount = 5;
             if (document.getElementById("radio_10").checked) {
                 question_amount = 10;
-            }        
+            }
             sessionStorage.setItem("question_amount", question_amount);
             location.href = "quiz.html";
         }
-        else
-        alert("Please enter your name")
-        //Not working below
-        let input_field = document.getElementById("input_field");
-        focus.input_field;
+        else {
+            alert("Please enter your name");
+            document.getElementById("input_field").focus();
+        }
     }
 }

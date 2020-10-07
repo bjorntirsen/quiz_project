@@ -114,7 +114,6 @@ body {
 
 .quiz_body {
     padding: 30px;
-    /* border-radius: 3px; */
     background-color: #938E94;
 }
 
@@ -182,4 +181,8 @@ body {
     background-color: #fff;
     color: #557A95;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.invisible {
+    display: none;
 }

@@ -159,12 +159,14 @@ class Game {
     }
 
     //Displaying the score page
-    scorePage() {
+    scorePage() { 
         this.toggleFirstButton();
         document.getElementById("user_welcome").innerHTML = "Congratulations " + this.player.name + "!";
         let question_field = document.getElementById("question_field");
         let option_group = document.getElementById("option_group");
         option_group.innerHTML = "";
+        let timer = document.getElementById("timer");
+        timer.classList.add("invisible");
         console.log("I'm about to display THE SCORE PAGE");
         console.log(this.current_question_index);
         question_field.innerText = "You have completed the quiz:"
@@ -175,8 +177,13 @@ class Game {
             option_group.append(li_option);
         }
         document.getElementById(0).innerHTML = "There were " + this.question_amount + " questions.";
-        document.getElementById(1).innerHTML = "There were " + this.player.possible_score + " possible correct answers.";
-        document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.player.possible_score + ".";
-        document.getElementById(3).innerHTML = "It took you " + this.timer.minutes + " minutes and " + this.timer.seconds + " seconds to complete the quiz.";
+        if (this.player.possible_score != this.question_amount) {
+            document.getElementById(1).innerHTML = "This quiz included questions with multiple correct answers.";
+        }
+        else {
+            document.getElementById(1).innerHTML = "This quiz did not include questions with multiple correct answers.";
+        }
+        document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.question_amount + ".";
+        document.getElementById(3).innerHTML = "It took you " + this.timer.minutes + " minute(s) and " + this.timer.seconds + " second(s) to complete the quiz.";
     }
 }
