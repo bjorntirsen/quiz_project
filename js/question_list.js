@@ -17,6 +17,8 @@ class Question_list {
                 let question = new Question();
                 //Converting key-value pairs of object into array and
                 //inserting that array into proper place in object
+                //It takes the answers from the object using Object.keys
+                //Then it creates and array using .map for each of the answers
                 question.answers = Object.keys(data[i].answers).map((key) => [key, data[i].answers[key]]);
                 //Mapping out the keys from the JSON object into an
                 //array of true or false in string
@@ -43,7 +45,7 @@ class Question_list {
     //Check how namy questions you answered correctly
     correct(player_answers) {
         let score = 0;        
-        console.log("All your answers are printed below");
+        console.log("All your answers are printed below:");
         console.log(player_answers);
         for (var i = 0; i < player_answers.length; i++) {
             /* let correct_answers = this.list[i].correct_answers; */            
@@ -51,10 +53,10 @@ class Question_list {
             this.list[i].correct_answers = this.list[i].correct_answers.slice(0, player_answers[i].length);
             //Comparing player answers to correct answers
             if (this.arraysEqual(player_answers[i], this.list[i].correct_answers) == true) {
-                console.log("Question index " + i + " was correct");
+                console.log("Question index " + i + " was correct.");
                 score++;
             }
-            else console.log("Question index " + i + " was incorrect");
+            else console.log("Question index " + i + " was incorrect.");
         }
         return score;
     }
