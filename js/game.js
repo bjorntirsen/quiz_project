@@ -38,7 +38,7 @@ class Game {
     nextQuestion() {
         this.current_question_index++;       
         //If you've reached the score screen of quiz you can start over
-        if (this.current_question_index == (this.question_list.question_amount + 1)) {
+        if (this.current_question_index == (Number(this.question_list.question_amount) + 1)) {
             location.href = "index.html";
         }
         else
@@ -50,7 +50,7 @@ class Game {
         option_group.innerHTML = "";
         //If you are at the last question of the quiz
         if (this.current_question_index == this.question_list.question_amount) {
-            this.correct();
+            this.player.score = this.question_list.correct(this.player.answer_list);
             this.scorePage();
         }
         //This is the most common "next question" functionality
@@ -113,37 +113,6 @@ class Game {
             console.log("You chose the following answers: " + this.player.answer_list[this.current_question_index - 1]);
         }
     }
-    //Check how namy questions you answered correctly
-    correct() {
-        let player_answers = this.player.answer_list;
-        let score = 0;
-        let possible_score = this.player.possible_score;
-        console.log("All your answers are printed below");
-        console.log(player_answers);
-        for (var i = 0; i < player_answers.length; i++) {
-            let corr_answers = this.question_list.list[i].correct_answers;
-            //Count the number of correct answers in each question
-            let corr_answers2 = corr_answers.filter(Boolean).length;
-            possible_score += corr_answers2;
-            //Slicing answers array into equal length
-            corr_answers = corr_answers.slice(0, player_answers[i].length);
-            //Comparing player answers to correct answers
-            if (this.arraysEqual(player_answers[i], corr_answers) == true) {
-                console.log("Question index " + i + " was correct");
-                score++;
-            }
-            else console.log("Question index " + i + " was incorrect");
-        }
-        this.player.possible_score = possible_score;
-        this.player.score = score;
-    }
-    //Help method to correct() checking if two arrays are equal
-    arraysEqual(a, b) {
-        for (var i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) return false;
-        }
-        return true;
-    }
     //Method for displaying the score page
     scorePage() { 
         this.toggleFirstButton();
@@ -161,7 +130,7 @@ class Game {
             option_group.append(li_option);
         }
         document.getElementById(0).innerHTML = "There were " + this.question_list.question_amount + " questions.";
-        if (this.player.possible_score != this.question_list.question_amount) {
+        if (this.question_list.whereThereMultipleAnswers()) {
             document.getElementById(1).innerHTML = "This quiz included questions with multiple correct answers.";
         }
         else {
