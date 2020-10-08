@@ -1,10 +1,9 @@
 class Game {
     constructor() {
         this.player = new Player();
-        this.displayReadyPage();
-        this.question_amount = sessionStorage.getItem("question_amount");
-        this.current_question_index = -1;
         this.question_list = new Question_list();
+        this.displayReadyPage();
+        this.current_question_index = -1;        
         this.no_of_timers = 0;
         this.timer = null;
         this.question_list.fetchQuestions(this.question_amount, this);        
@@ -39,7 +38,7 @@ class Game {
     nextQuestion() {
         this.current_question_index++;       
         //If you've reached the score screen of quiz you can start over
-        if (this.current_question_index == (Number(this.question_amount) + 1)) {
+        if (this.current_question_index == (this.question_list.question_amount + 1)) {
             location.href = "index.html";
         }
         else
@@ -50,12 +49,12 @@ class Game {
         this.rememberAnswers();
         option_group.innerHTML = "";
         //If you are at the last question of the quiz
-        if (this.current_question_index == this.question_amount) {
+        if (this.current_question_index == this.question_list.question_amount) {
             this.correct();
             this.scorePage();
         }
         //This is the most common "next question" functionality
-        else if (this.current_question_index < this.question_amount) {
+        else if (this.current_question_index < this.question_list.question_amount) {
             let displayed_question = this.question_list.list[this.current_question_index];
             let corr_answers = this.question_list.list[this.current_question_index].correct_answers;
             //There are some console.logs to use if you want to see the correct answers
@@ -82,10 +81,10 @@ class Game {
         if (this.current_question_index === 0) {
             btn_next.innerHTML = "Next Question";
         }
-        else if (this.current_question_index == this.question_amount - 1) {
+        else if (this.current_question_index == this.question_list.question_amount - 1) {
             btn_next.innerHTML = "Submit Your Answers";
         }
-        else if (this.current_question_index == this.question_amount) {
+        else if (this.current_question_index == this.question_list.question_amount) {
             btn_next.innerHTML = "Try Again";
         }
     }
@@ -166,14 +165,14 @@ class Game {
             li_option.classList.add("score");
             option_group.append(li_option);
         }
-        document.getElementById(0).innerHTML = "There were " + this.question_amount + " questions.";
-        if (this.player.possible_score != this.question_amount) {
+        document.getElementById(0).innerHTML = "There were " + this.question_list.question_amount + " questions.";
+        if (this.player.possible_score != this.question_list.question_amount) {
             document.getElementById(1).innerHTML = "This quiz included questions with multiple correct answers.";
         }
         else {
             document.getElementById(1).innerHTML = "This quiz did not include questions with multiple correct answers.";
         }
-        document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.question_amount + ".";
+        document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.question_list.question_amount + ".";
         document.getElementById(3).innerHTML = "It took you " + this.timer.minutes + " minute(s) and " + this.timer.seconds + " second(s) to complete the quiz.";
     }
 }
