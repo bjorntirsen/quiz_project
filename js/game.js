@@ -2,11 +2,11 @@ class Game {
     constructor() {
         this.player = new Player();
         this.question_list = new Question_list();
+        this.question_list.fetchQuestions(this.question_amount, this);
         this.displayReadyPage();
         this.current_question_index = -1;        
         this.no_of_timers = 0;
-        this.timer = null;
-        this.question_list.fetchQuestions(this.question_amount, this);        
+        this.timer = null;               
     }
 
     displayReadyPage() {
@@ -106,16 +106,11 @@ class Game {
     rememberAnswers() {
         //Dont do this on the "ready screen"
         if (this.current_question_index > 0) {
-            //Creates an array of booleans with player answers
-            let answers = document.querySelectorAll("li.option");
-            let answer_array = Array.from(answers);
-            answer_array = answer_array.map(function (element) {
-                return element.classList.value;
-            });
-            answer_array = answer_array.map(x => x.includes("active"));
-            let player_answers = this.player.answer_list;
-            player_answers[this.current_question_index - 1] = answer_array;
-            console.log("You chose the following answers: " + player_answers[this.current_question_index - 1]);
+            //Creates an array of booleans with player answers in two steps
+            let answer_array = Array.from(document.querySelectorAll("li.option"));
+            answer_array = answer_array.map(x => x.classList.value.includes("active"));
+            this.player.answer_list[this.current_question_index - 1] = answer_array;
+            console.log("You chose the following answers: " + this.player.answer_list[this.current_question_index - 1]);
         }
     }
     //Check how namy questions you answered correctly
