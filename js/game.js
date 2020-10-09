@@ -73,6 +73,9 @@ class Game {
                 }
             }
             this.makeOptionsSelectable();
+            document.getElementById("difficulty").innerHTML = "Difficulty: " + this.question_list.list[this.current_question_index].difficulty;
+            document.getElementById("tag_container").classList.remove("invisible");
+            document.getElementById("tag").innerHTML = this.question_list.list[this.current_question_index].tag;
         }
     }
     //Method to control the text of the "next" button
@@ -138,5 +141,7 @@ class Game {
         }
         document.getElementById(2).innerHTML = "Your score was " + this.player.score + " out of " + this.question_list.question_amount + ".";
         document.getElementById(3).innerHTML = "It took you " + this.timer.minutes + " minute(s) and " + this.timer.seconds + " second(s) to complete the quiz.";
+        document.getElementById("difficulty").innerHTML = "";
+            document.getElementById("tag_container").classList.add("invisible");
     }
 }
