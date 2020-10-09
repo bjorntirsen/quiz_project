@@ -21,6 +21,10 @@ body {
     width: 400px;
 }
 
+.headline {
+    text-align: center;
+}
+
 .welcome_form input,
 .welcome_form button {
     display: block;
@@ -43,8 +47,8 @@ body {
 }
 
 .question_buttons {
-    justify-content: space-evenly;
     margin: 30px;
+    text-align: center;
 }
 
 .question_buttons input[type="radio"] {
@@ -54,10 +58,11 @@ body {
 }
 
 .question_buttons label {
-    display: inline-block;
+    display: inline-flex;
     background-color: #557A95;
     color: #fff;
     padding: 20px;
+    margin: 10px;
     font-size: 22px;
     border: 2px solid #fff;
     border-radius: 100px;
@@ -71,7 +76,7 @@ body {
 }
 
 .question_buttons input[type="radio"]:focus + label {
-    border: 2px dashed #444;
+    border: 2px solid #444;
 }
 
 .question_buttons input[type="radio"]:checked + label {
