@@ -65,6 +65,7 @@ body {
 }
 
 .question_buttons label {
+    width: 70px;
     display: inline-flex;
     background-color: #557A95;
     color: #fff;
@@ -73,7 +74,7 @@ body {
     font-size: 22px;
     border: 2px solid #fff;
     border-radius: 100px;
-    transition: 0.4s all;
+    transition: 0.4s all;    
 }
 
 .question_buttons label:hover {
