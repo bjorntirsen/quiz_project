@@ -3,6 +3,8 @@ class Question_list {
         this.question_amount = sessionStorage.getItem("question_amount");          
         this.list = [];
     }
+
+    //This is the method that fetches the questions from the API
     async fetchQuestions(question_amount, main_object) {
         let list = this.list;
         await fetch("https://quizapi.io/api/v1/questions?category=code&limit="+question_amount, {
@@ -13,27 +15,31 @@ class Question_list {
         .then((response) => response.json())
         .then((data) => {
             for (let i = 0; i < this.question_amount; i++){
-                //Turning each question in json to object
+                //Turning the response from the API into question objects
                 let question = new Question();
-                //Converting key-value pairs of object into array and
-                //inserting that array into proper place in object
-                //It takes the answers from the object using Object.keys
-                //Then it creates and array using .map for each of the answers
+                //Here we are taking the key-value pairs of answers and
+                //inserting them in the answers array of the object.
+                //Like this: [ 'answer_a', 'ceil(x, y)' ]
                 question.answers = Object.keys(data[i].answers).map((key) => [key, data[i].answers[key]]);
-                //Mapping out the keys from the JSON object into an
-                //array of true or false in string
+                //We then do the same for the correct answers
                 question.correct_answers = Object.keys(data[i].correct_answers).map((key) => [data[i].correct_answers[key]]);
-                //Converting the strings to booleans
+                //But here we are also then converting that array into
+                //an array of booleans.
+                //Like this: [ false, true, false, false, false, false ]
                 question.correct_answers = question.correct_answers.map((val) => (val == "true"));
+                //Both of the above arrays will have the length 6.
+                //Below its just a single string we are adding each time.
                 question.question = data[i].question;
                 question.tag = data[i].tags[0].name;
                 question.difficulty = data[i].difficulty;
+                //Finally we are pushing the question object into our list array.
                 list.push(question);
             }  
         });
         main_object.initializeNextButton();
         document.getElementById("fetching").classList.add("invisible");        
     }
+
     //See if there were multiple answers in the quiz
     whereThereMultipleAnswers(){
         let number_of_correct_answers = 0;
@@ -44,13 +50,13 @@ class Question_list {
         if (number_of_correct_answers != this.question_amount) return true;
         else return false;
     }
+
     //Check how namy questions you answered correctly
     correct(player_answers) {
         let score = 0;        
         console.log("All your answers are printed below:");
         console.log(player_answers);
-        for (var i = 0; i < player_answers.length; i++) {
-            /* let correct_answers = this.list[i].correct_answers; */            
+        for (var i = 0; i < player_answers.length; i++) {          
             //Slicing answers array into same length as player answers
             this.list[i].correct_answers = this.list[i].correct_answers.slice(0, player_answers[i].length);
             //Comparing player answers to correct answers
@@ -62,7 +68,8 @@ class Question_list {
         }
         return score;
     }
-    //Help method to correct() checking if two arrays are equal
+    
+    //Help method to correct(), checking if two arrays are equal
     arraysEqual(a, b) {
         for (var i = 0; i < a.length; ++i) {
             if (a[i] !== b[i]) return false;

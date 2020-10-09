@@ -1,3 +1,5 @@
+//The class controlling the timer
+//it starts counting as soon as it's created
 class Timer {
     constructor(){
         this.seconds = 0;

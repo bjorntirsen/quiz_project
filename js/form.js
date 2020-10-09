@@ -1,7 +1,10 @@
+//This class is only used on the index page
 class Form {
     constructor() {        
         this.initializeSubmitButton();
     }
+
+    //Storing inputs for the quiz.html page
     submitForm() {
         if (document.getElementById("input_field").value.trim() != "") {
             //Getting and storing player name in session storage
@@ -21,6 +24,7 @@ class Form {
         }
     }
 
+    //Adding event listener to button on index.html
     initializeSubmitButton() {
         let that = this;
         let submit_button = document.getElementById("submit_button");

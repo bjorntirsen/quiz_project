@@ -9,6 +9,7 @@ class Game {
         this.timer = null;               
     }
 
+    //This is to display the "ready page"
     displayReadyPage() {
         document.getElementById("user_welcome").innerHTML += this.player.name + "!";
         let question_field = document.getElementById("question_field");
@@ -21,6 +22,8 @@ class Game {
         question_field.innerHTML = "Are you ready to start the Quiz?";
     }
 
+    //Here we are adding the event listener to the "next button"
+    //and we'll also be creating the timer when it is clicked
     initializeNextButton() {        
         let that = this;
         let btn_next = document.getElementById("btn_next");
@@ -34,6 +37,7 @@ class Game {
         });
         btn_next.classList.remove("invisible")
     }
+
     //Method executed when clicking "next" button
     nextQuestion() {
         this.current_question_index++;       
@@ -78,6 +82,7 @@ class Game {
             document.getElementById("tag").innerHTML = this.question_list.list[this.current_question_index].tag;
         }
     }
+
     //Method to control the text of the "next" button
     toggleFirstButton() {
         let btn_next = document.getElementById("btn_next");
@@ -91,6 +96,7 @@ class Game {
             btn_next.innerHTML = "Try Again";
         }
     }
+
     //Method to make multiple options selectable
     makeOptionsSelectable() {
         let options = document.querySelectorAll("li.option");
@@ -105,17 +111,23 @@ class Game {
             }
         }
     }
+
     //Method to remember your selected answers
     rememberAnswers() {
         //Dont do this on the "ready screen"
         if (this.current_question_index > 0) {
             //Creates an array of booleans with player answers in two steps
+            //First an array of html elements
             let answer_array = Array.from(document.querySelectorAll("li.option"));
+            //Then we turn that array to an array of booleans
             answer_array = answer_array.map(x => x.classList.value.includes("active"));
+            //And inserting that array into the right index of the
+            //answer_list array.
             this.player.answer_list[this.current_question_index - 1] = answer_array;
             console.log("You chose the following answers: " + this.player.answer_list[this.current_question_index - 1]);
         }
     }
+    
     //Method for displaying the score page
     scorePage() { 
         this.toggleFirstButton();
