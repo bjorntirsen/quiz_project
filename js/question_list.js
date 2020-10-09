@@ -26,6 +26,8 @@ class Question_list {
                 //Converting the strings to booleans
                 question.correct_answers = question.correct_answers.map((val) => (val == "true"));
                 question.question = data[i].question;
+                question.tag = data[i].tags[0].name;
+                question.difficulty = data[i].difficulty;
                 list.push(question);
             }  
         });
