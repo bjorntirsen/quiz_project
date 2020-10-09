@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 body {
     font-family: 'Nunito', sans-serif;
 }
